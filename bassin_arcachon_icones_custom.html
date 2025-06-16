@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Plages et Restaurants – Bassin d’Arcachon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style>
+    #map { height: 100vh; }
+    .legend {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: white;
+      padding: 10px;
+      z-index: 1000;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="legend">
+    <strong>Légende</strong><br>
+    📍 Plages accessibles<br>
+    👨‍🍳 Restaurants recommandés
+  </div>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([44.65, -1.15], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '© OpenStreetMap contributors & CSTB'
+    }).addTo(map);
+
+    const beachIcon = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+      popupAnchor: [0, -30]
+    });
+
+    const restaurantIcon = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/135/135620.png',
+      iconSize: [30, 30],
+      iconAnchor: [15, 30],
+      popupAnchor: [0, -30]
+    });
+
+    const beaches = [
+      { name: "Plage Thiers (Arcachon)", coords: [44.660, -1.151], info: "Label Handiplage – rampe, parking PMR" },
+      { name: "Plage Eyrac (Arcachon)", coords: [44.655, -1.152], info: "Accès aménagé, tiralo" },
+      { name: "Plage du Moulleau", coords: [44.626, -1.189], info: "Zone adaptée PMR, accès via passerelle" },
+      { name: "Plage du Petit Nice", coords: [44.597, -1.163], info: "Label Handiplage – vestiaires, tiralos" },
+      { name: "Plage de la Hume", coords: [44.635, -1.070], info: "Plage surveillée, stationnements adaptés" },
+      { name: "Plage du Betey (Andernos)", coords: [44.747, -1.094], info: "Rampe d'accès, stationnement PMR" },
+      { name: "Plage de Cassy (Lanton)", coords: [44.729, -1.059], info: "Plage familiale avec accès adapté" },
+      { name: "Plage d’Audenge", coords: [44.691, -1.003], info: "Accès aménagé, calme, aire adaptée" }
+    ];
+
+    const restaurants = [
+      { name: "Le Patio (Arcachon)", coords: [44.662, -1.151], info: "Cuisine moderne (Michelin)" },
+      { name: "Ko-sometsuke 2K (Arcachon)", coords: [44.663, -1.152], info: "Asiatique fusion" },
+      { name: "La Table de L'Oléa (La Teste-de-Buch)", coords: [44.636, -1.149], info: "Cuisine moderne" },
+      { name: "Acacia (Arcachon)", coords: [44.665, -1.150], info: "Bistronomique" },
+      { name: "L'Aillet (La Teste-de-Buch)", coords: [44.633, -1.143], info: "Bistrot traditionnel" },
+      { name: "Bistro' 50 (Gujan-Mestras)", coords: [44.626, -1.095], info: "Cuisine moderne" },
+      { name: "Le Skiff Club (Pyla-sur-Mer)", coords: [44.585, -1.170], info: "2 étoiles Michelin" },
+      { name: "L'Auberge du Bassin (Lège-Cap-Ferret)", coords: [44.630, -1.124], info: "Cuisine du Bassin" },
+      { name: "Nacre (Arès)", coords: [44.731, -1.105], info: "Cuisine moderne" },
+      { name: "La Co(o)rniche (Pyla-sur-Mer)", coords: [44.586, -1.155], info: "Vue Dune du Pilat" }
+    ];
+
+    beaches.forEach(b => {
+      L.marker(b.coords, { icon: beachIcon }).addTo(map)
+        .bindPopup(`<strong>📍 ${b.name}</strong><br>${b.info}`);
+    });
+
+    restaurants.forEach(r => {
+      L.marker(r.coords, { icon: restaurantIcon }).addTo(map)
+        .bindPopup(`<strong>👨‍🍳 ${r.name}</strong><br>${r.info}`);
+    });
+  </script>
+</body>
+</html>
